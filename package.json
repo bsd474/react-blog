@@ -1,0 +1,31 @@
+{
+  "name": "blog-project",
+  "version": "1.0.0",
+  "description": "Backend of a blog application",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bsd474/react-blog.git"
+  },
+  "keywords": [
+    "blog",
+    "react"
+  ],
+  "author": "Bader Aldossary",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bsd474/react-blog/issues"
+  },
+  "homepage": "https://github.com/bsd474/react-blog#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
