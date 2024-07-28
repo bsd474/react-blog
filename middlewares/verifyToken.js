@@ -16,12 +16,11 @@ function verifyToken(req, res, next) {
 }
 
 // Verify the token and check if the user is an admin
-
 function verifyTokenAdmin(req, res, next) {
     verifyToken(req, res, () => {
         if (!req.user.isAdmin) {
             const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
-            return res.status(403).json({ message: 'Forbidden, and your IP address has been sent to the administrator. ', ipAddress });
+            return res.status(403).json({ message: 'Forbidden, and your IP address has been sent to the administrator.', ipAddress });
         } else {
             next();
         }
@@ -30,10 +29,23 @@ function verifyTokenAdmin(req, res, next) {
 
 // Verify the token for user only. This is useful for routes that are meant for only authenticated users.
 function verifyTokenUser(req, res, next) {
-    verifyToken(req, res, () => {
-        if (req.user.id !== req.params.id) {
-            return res.status(403).json({ message: 'Forbidden: You do not have permission to access this resource.' });
+    verifyToken(req, res, next);
+}
 
+// Verify if the user is accessing their own resource
+function verifyUserAccess(req, res, next) {
+    if (req.user.id !== req.params.id) {
+        return res.status(403).json({ message: 'Forbidden: You do not have permission to access this resource.' });
+    } else {
+        next();
+    }
+}
+
+// Verify if this admin or the user is accessing their own resource
+function verifyUserAndAdmin(req, res, next) {
+    verifyToken(req, res, () => {
+        if (req.user.id !== req.params.id && !req.user.isAdmin) {
+            return res.status(403).json({ message: 'Forbidden: You do not have permission to access this resource.' });
         } else {
             next();
         }
@@ -44,4 +56,6 @@ module.exports = {
     verifyToken,
     verifyTokenAdmin,
     verifyTokenUser,
-}
+    verifyUserAccess,
+    verifyUserAndAdmin
+};
