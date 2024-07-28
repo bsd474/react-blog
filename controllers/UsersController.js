@@ -132,19 +132,23 @@ module.exports.deleteUser = asyncHandler(async (req, res) => {
     if (!user) {
         return res.status(404).json({ message: 'User not found' });
     }
-    
+
     // @TODO: get all posts of the user
     // @TODO: get all public ids of the posts
     // @TODO: delete all posts images from cloudinary
     // @TODO: delete the user posts and comments
 
-    // delete avatar from cloudinary
-            await cloudinaryRemoveAvatar(user.profilePic.public_id);
+    // delete avatar from cloudinary - check if the user has an avatar
+    if (user.profilePic.public_id !== null){
+        await cloudinaryRemoveAvatar(user.profilePic.public_id);
+    }
+        
+
 
     // delete the user
     //  Model.findByIdAndDelete(conditions) // delete the first document that matches the conditions
     //   findByIdAndDelete(id) is a shorthand for findOneAndDelete({ _id: id })
-             await User.findByIdAndDelete(req.params.id);
+    await User.findByIdAndDelete(req.params.id);
     
 
     // send the response
