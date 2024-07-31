@@ -14,14 +14,14 @@ module.exports.createCategory = asyncHandler(async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   let category = new Category({
-    name: req.body.name,
+    category: req.body.category, // Match schema field name
   });
 
   category = await category.save();
   res.send(category);
 });
 
-// ======== Create a category ========
+// ======== Get all category ========
 // @desc    Get all categories
 // @route   GET /api/categories
 // @access  Public
@@ -30,6 +30,17 @@ module.exports.createCategory = asyncHandler(async (req, res) => {
 // ===================================
 
 module.exports.getCategories = asyncHandler(async (req, res) => {
-  const categories = await Category.find().sort("name");
+  const categories = await Category.find().sort("category");
   res.send(categories);
+});
+
+// ======== Get Category Count ========
+// @desc    Get Category Count
+// @route   GET /api/categories/count
+// @access  Public
+// @return  The count of categories
+// ===================================
+module.exports.getCategoriesCount = asyncHandler(async (req, res) => {
+  const categoriesCount = await Category.find().countDocuments();
+  res.send({ count: categoriesCount });
 });

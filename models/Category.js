@@ -4,7 +4,7 @@ const joi = require("joi");
 // Create a schema
 const categorySchema = new mongoose.Schema(
   {
-    name: {
+    category: {
       type: String,
       required: true,
       trim: true,
@@ -21,7 +21,7 @@ const Category = mongoose.model("Category", categorySchema);
 // Validate category
 function validateCategory(obj) {
   const schema = joi.object({
-    name: joi.string().trim().min(2).max(50).required(),
+    category: joi.string().trim().min(2).max(50).required(),
   });
 
   return schema.validate(obj);

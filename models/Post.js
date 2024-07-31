@@ -25,7 +25,7 @@ const postSchema = new mongoose.Schema(
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+      ref: "Category", // Reference to the Category model
       required: true,
     },
     image: {
